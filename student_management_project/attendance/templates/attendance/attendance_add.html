@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block linker %}
+<style>
+    /* Customizing the table header background color */
+    .table thead th {
+        background-color: #0c1f6a; /* Dark blue background color */
+        color: #ffffff; /* White text color for contrast */
+        font-weight: bold;
+    }
+    
+    /* Setting the table body background color to white */
+    .table tbody {
+        background-color: #ffffff; /* White background color */
+    }
+
+    /* Card styling */
+    .card {
+        border: 2px solid #0c1f6a; /* Dark blue external border */
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Customizing button colors */
+    .btn-custom {
+        background-color: #0b2e59; /* Dark blue background color */
+        color: #ffffff; /* White text color for contrast */
+        border: none; /* Remove border */
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+
+    /* Adding hover effect for buttons */
+    .btn-custom:hover {
+        background-color: #0a2a4d; /* Slightly darker on hover */
+        color: #ffffff; /* White text color */
+    }
+
+    /* Responsive table */
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    /* Adjusting font sizes */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0b2e59; /* Header color */
+    }
+
+    label {
+        font-weight: 600; /* Bold labels */
+    }
+
+    /* Form elements styling */
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #0b2e59; /* Add border to select */
+        transition: border-color 0.3s; /* Transition for border color */
+    }
+
+    /* Change border color on focus */
+    .form-control:focus {
+        border-color: #0c1f6a; /* Change border color on focus */
+        box-shadow: 0 0 5px rgba(12, 31, 106, 0.5); /* Add shadow on focus */
+    }
+
+    /* Adding hover effect for table rows */
+    .table tbody tr:hover {
+        background-color: #f8f9fa; /* Light grey on hover */
+    }
+
+    /* Custom spacing for dropdowns */
+    .dropdown-container {
+        margin-right: 10px; /* Add margin between dropdowns */
+    }
+</style>
+{% endblock linker %}
+
+{% block title %}
+Attendance Management
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card">
+        <h1 class="text-center mb-4">Attendance Management</h1>
+
+        <!-- Course Selection Form -->
+        <form method="GET" action="{% url 'attendance_add' %}" class="form-inline justify-content-center mb-4" onchange="this.form.submit()">
+            <div class="dropdown-container">
+                <label for="course" class="mr-2">Select Course:</label>
+                <select name="course" id="course" class="form-control mr-2" onchange="this.form.submit()">
+                    {% for course in courses %}
+                    <option value="{{ course.c_id }}" 
+                        {% if selected_course %} 
+                            {% if selected_course == course.c_id %} selected {% endif %} 
+                        {% else %} 
+                            {% if forloop.first %} selected {% endif %} 
+                        {% endif %}>
+                        {{ course.cname }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="dropdown-container">
+                <label for="batch" class="mr-2">Select Batch:</label>
+                <select name="batch" id="batch" class="form-control mr-2">
+                    <option selected disabled value="">Select Batch</option>
+                    {% for batch in batches %}
+                        <option value="{{ batch.batch_mon }}-{{ batch.batch_year }}" 
+                            {% if selected_month and selected_year %} 
+                                {% if selected_month|stringformat:"d" == batch.batch_mon|stringformat:"d" and selected_year == batch.batch_year|stringformat:"d" %} selected {% endif %} 
+                            {% endif %}>
+                            {{ batch.batch_mon }} - {{ batch.batch_year }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <button type="submit" class="btn btn-custom">Submit</button>
+        </form>
+
+        <!-- Attendance Form -->
+        <form method="POST" action="{% url 'attendance_add_action' %}">
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Batch</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if students %}
+                            {% for student in students %}
+                            <tr>
+                                <td>{{ student.st_id }}</td>
+                                <td>{{ student.fname }} {{ student.lname }}</td>
+                                <td>{{ student.batch_mon }} {{ student.batch_year }}</td>
+                                <td>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="P" id="present_{{ student.st_id }}" checked>
+                                        <label class="form-check-label" for="present_{{ student.st_id }}">Present</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="A" id="absent_{{ student.st_id }}">
+                                        <label class="form-check-label" for="absent_{{ student.st_id }}">Absent</label>
+                                    </div>
+                                    <input type="hidden" name="student_id_{{ student.st_id }}" value="{{ student.st_id }}">
+                                </td>                        
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">No students found for this course.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center">
+                {% if not students or selected_batch == None %}
+                <div class="alert alert-warning" role="alert">
+                    Cannot Submit Attendance, check course and batches mismatch
+                </div>
+                {% else %}
+                <button type="submit" class="btn btn-custom">Submit Attendance</button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock body %}

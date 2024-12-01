@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Subject
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card">
+        <h1 class="text-center mb-4">Add New Subject</h1>
+        
+        <form action="{% url 'subject_add' %}" method="POST" class="form">
+            {% csrf_token %}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-label"><label for="sb_id" class="form-label">Subject ID</label></td>
+                        <td><input type="text" name="sb_id" id="sb_id" class="form-control" required 
+                                   placeholder="Enter Subject ID" data-toggle="tooltip" title="Enter a unique Subject ID"></td>
+                    </tr>
+                    <tr>
+                        <td class="col-label"><label for="sbname" class="form-label">Subject Name</label></td>
+                        <td><input type="text" name="sbname" id="sbname" class="form-control" required 
+                                   placeholder="Enter Subject Name" data-toggle="tooltip" title="Enter the name of the Subject"></td>
+                    </tr>
+                    <tr>
+                        <td class="col-label"><label for="courses" class="form-label"><i class="fas fa-book"></i> Courses</label></td>
+                        <td>
+                            <select name="courses" id="courses" class="form-control border-input" multiple required>
+                                {% for course in courses %}
+                                <option value="{{ course.c_id }}">{{ course.cname }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button type="submit" class="btn btn-custom">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add Subject Page CSS -->
+<style>
+    /* Card Styling for Consistency */
+    .card {
+        border: 2px solid #0b2e59; /* Border color and thickness */
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        background-color: #f8f9fa; /* Light background color */
+        margin-bottom: 20px;
+    }
+
+    /* Heading Styling */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0b2e59;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    }
+
+    /* Table Styling */
+    .table {
+        width: 100%; /* Full width table */
+        margin-top: 20px; /* Margin above the table */
+        border-collapse: separate; /* Separate borders */
+        border-spacing: 0 1rem; /* Spacing between rows */
+    }
+
+    .col-label {
+        width: 30%; /* Set a specific width for the label columns */
+    }
+
+    .form-label {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #0b2e59;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #0b2e59; /* Default border color for inputs */
+        padding: 10px;
+        transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+        width: 100%; /* Full width inputs */
+    }
+
+    /* Courses select element styling */
+    #courses {
+        border: 1px solid #0b2e59; /* Match border color to other input fields */
+    }
+
+    .form-control:focus {
+        border-color: #0c1f6a;
+        box-shadow: 0 0 5px rgba(12, 31, 106, 0.5);
+        outline: none; /* Remove default outline */
+    }
+
+    /* Button Styling */
+    .btn-custom {
+        background-color: #0c1f6a; /* Use the specified color */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    }
+
+    .btn-custom:hover {
+        background-color: #0a2a4d; /* Darker on hover */
+        color: white;
+        transform: scale(1.05); /* Slight scale on hover */
+    }
+
+    .text-center {
+        text-align: center;
+        margin-top: 20px; /* Margin above the button */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .table {
+            font-size: 0.9rem; /* Smaller font size on mobile */
+        }
+        .col-label {
+            width: 40%; /* Adjust width for mobile view */
+        }
+        .btn-custom {
+            width: 100%; /* Full width button on small screens */
+        }
+    }
+</style>
+
+<!-- Include Bootstrap JS and jQuery for tooltips -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip(); // Initialize tooltips
+    });
+</script>
+{% endblock body %}

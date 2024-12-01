@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block linker %}
+<style>
+    /* Customizing the table header background color */
+    .table thead th {
+        background-color: #0c1f6a; /* Dark blue background color */
+        color: #ffffff; /* White text color for contrast */
+        font-weight: bold;
+    }
+    
+    /* Setting the table body background color to white */
+    .table tbody {
+        background-color: #ffffff; /* White background color */
+    }
+
+    /* Card styling */
+    .card {
+        border: 2px solid #0b2e59; /* Dark blue border for visibility */
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition for hover effect */
+    }
+
+    /* Adding hover effect for the card */
+    .card:hover {
+        transform: scale(1.02); /* Slightly enlarge the card on hover */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    }
+
+    /* Customizing button colors */
+    .btn-custom {
+        background-color: #0b2e59; /* Dark blue background color */
+        color: #ffffff; /* White text color for contrast */
+        border: 2px solid #0b2e59; /* Dark blue border */
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+
+    /* Customizing download button color */
+    .btn-success {
+        background-color: #28a745; /* Green background color */
+        color: #ffffff; /* White text color for contrast */
+        border: 2px solid #28a745; /* Green border */
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+
+    /* Adding hover effect for buttons */
+    .btn-custom:hover {
+        background-color: #0a2a4d; /* Slightly darker on hover */
+        color: #ffffff; /* White text color */
+    }
+
+    /* Adding hover effect for the download button */
+    .btn-success:hover {
+        background-color: #218838; /* Darker green on hover */
+        color: #ffffff; /* White text color */
+    }
+
+    /* Responsive table */
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    /* Adjusting font sizes */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0b2e59; /* Header color */
+    }
+
+    /* Styling the input group */
+    .input-group {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border: 2px solid #0b2e59; /* Dark blue border for input group */
+    }
+
+    /* Styling list items */
+    .list-group-item {
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        border: 1px solid #0b2e59; /* Dark blue border for list items */
+    }
+
+    /* Hover effect for list items */
+    .list-group-item:hover {
+        background-color: #e3f2fd; /* Light blue background on hover */
+        transform: scale(1.02); /* Slightly enlarge on hover */
+    }
+
+    /* Highlight table borders */
+    .table {
+        border: 2px solid #0b2e59; /* Blue border for the table */
+    }
+    
+    .table th, .table td {
+        border: 1px solid #0b2e59; /* Blue border for table cells */
+    }
+</style>
+{% endblock linker %}
+
+{% block title %}
+View Report Records
+{% endblock title %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="card">
+        <h1 class="text-center mb-4">View Report Records</h1>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form method="GET">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Search for CSV files" value="{{ request.GET.search }}" aria-label="Search">
+                        <button type="submit" class="btn btn-custom">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% if zipped_files %}
+            <ul class="list-group">
+                {% for file, file_url, delete_url in zipped_files %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ file }}</span>
+                        <div>
+                            <a href="{{ file_url }}" class="btn btn-success">Download</a>
+                            <a href="{{ delete_url }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{ file }}?');">Delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center">No files found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}

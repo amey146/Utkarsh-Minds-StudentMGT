@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Subject
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card">
+        <h1 class="text-center mb-4">Edit Subject</h1>
+        
+        <form action="/coursemgt/subject_do_update/{{ s.sb_id }}" method="POST" class="form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="sb_id" class="form-label">Subject ID</label>
+                <input type="text" name="sb_id" id="sb_id" value="{{ s.sb_id }}" class="form-control" required 
+                       placeholder="Enter Subject ID" data-toggle="tooltip" title="Enter a unique Subject ID">
+            </div>
+            
+            <div class="form-group">
+                <label for="sbname" class="form-label">Subject Name</label>
+                <input type="text" name="sbname" id="sbname" value="{{ s.sbname }}" class="form-control" required 
+                       placeholder="Enter Subject Name" data-toggle="tooltip" title="Enter the name of the Subject">
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="courses" class="form-label">Courses</label>
+                <select name="courses" id="courses" class="form-control" multiple required>
+                    {% for course in courses %}
+                    <option value="{{ course.c_id }}" {% if course in s.courses.all %} selected {% endif %}>
+                        {{ course.cname }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-custom">Update Subject</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Subject Page CSS -->
+<style>
+    /* Card Styling for Consistency */
+    .card {
+        border: 2px solid #0b2e59; /* Border color and thickness */
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        background-color: #f8f9fa; /* Light background color */
+        margin-bottom: 20px;
+    }
+
+    /* Heading Styling */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0b2e59;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    }
+
+    /* Label Styling */
+    .form-label {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #0b2e59; /* Color matching other labels */
+    }
+
+    /* Input Field Styling */
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #0b2e59; /* Consistent border color */
+        padding: 10px;
+        transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+        background-color: #ffffff; /* White background for inputs */
+        width: 100%; /* Full width inputs */
+    }
+
+    .form-control:focus {
+        border-color: #0c1f6a; /* Focus border color */
+        box-shadow: 0 0 5px rgba(12, 31, 106, 0.5);
+        outline: none; /* Remove default outline */
+    }
+
+    /* Button Styling */
+    .btn-custom {
+        background-color: #0c1f6a; /* Solid color for the button */
+        color: white; /* White text color */
+        border: none; /* No border */
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    }
+
+    .btn-custom:hover {
+        background-color: #0a2a4d; /* Darker on hover */
+        transform: scale(1.05); /* Slight scale on hover */
+    }
+
+    .text-center {
+        text-align: center;
+        margin-top: 20px; /* Margin above the button */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .form-group {
+            font-size: 0.9rem; /* Smaller font size on mobile */
+        }
+        .btn-custom {
+            width: 100%; /* Full width button on small screens */
+        }
+    }
+</style>
+
+<!-- Include Bootstrap JS and jQuery for tooltips -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip(); // Initialize tooltips
+    });
+</script>
+{% endblock body %}

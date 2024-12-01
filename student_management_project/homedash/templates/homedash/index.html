@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block linker %}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock linker %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block body %}
+<body class="d-flex flex-column min-vh-100"
+    style="background: rgb(220,240,255);
+background: linear-gradient(0deg, rgba(220,240,255,1) 0%);">
+    <div class="container">
+        <!-- Main Content -->
+        <div class="row justify-content-center w-100 mt-4">
+            <!-- Card 1 -->
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-lg border-0 rounded w-100 h-100">
+                    <img class="card-img-top" src="/static/images/attendance.jpg" alt="Attendance Image">
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <h5 class="card-title">Attendance</h5>
+                        <p class="card-text">Manages student attendance.</p>
+                        <a href="{% url 'attendance_home' %}" class="btn btn-primary btn-block">Go to Attendance</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-lg border-0 rounded w-100 h-100">
+                    <img class="card-img-top" src="/static/images/course.jpg" alt="Course Management Image">
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <h5 class="card-title">Course Management</h5>
+                        <p class="card-text">Handle all course-related tasks.</p>
+                        <a href="{% url 'course_home' %}" class="btn btn-primary btn-block">Go to Course Management</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-lg border-0 rounded w-100 h-100">
+                    <img class="card-img-top" src="/static/images/quiz.jpg" alt="Quiz Management Image">
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <h5 class="card-title">Quiz Management</h5>
+                        <p class="card-text">Create and manage quizzes.</p>
+                        <a href="{% url 'quiz_home' %}" class="btn btn-primary btn-block">Go to Quiz Management</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-lg border-0 rounded w-100 h-100">
+                    <img class="card-img-top" src="/static/images/students.jpg" alt="Student Management Image">
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <h5 class="card-title">Student Management</h5>
+                        <p class="card-text">Manage student records.</p>
+                        <a href="{% url 'student_home' %}" class="btn btn-primary btn-block">Go to Student Management</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-lg border-0 rounded w-100 h-100">
+                    <img class="card-img-top" src="/static/images/chart.jpg" alt="Student Management Image">
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <h5 class="card-title">Quiz Charts</h5>
+                        <p class="card-text">Visualize Quiz Charts.</p>
+                        <a href="{% url 'generate_chart' %}" class="btn btn-primary btn-block">View Charts</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-lg border-0 rounded w-100 h-100">
+                    <img class="card-img-top" src="/static/images/chart_att.png" alt="Student Management Image">
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <h5 class="card-title">Attendance Charts</h5>
+                        <p class="card-text">Visualize Attendance Charts.</p>
+                        <a href="{% url 'generate_chart_att' %}" class="btn btn-primary btn-block">View Charts</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Remove the unnecessary container flex styles */
+        .container {
+            margin-top: 20px; /* Margin from the top */
+        }
+
+        /* Row styling for card alignment */
+        .row {
+            justify-content: flex-start;
+            align-items: flex-start; /* Aligns the content at the top */
+        }
+
+        /* Card styling */
+        .card {
+            width: 300px;
+            height: 300px;
+            border: none;
+            border-radius: 0.75rem;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: #f4a261;
+            border-color: #f4a261;
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+        }
+
+        .btn-primary:hover {
+            background-color: #e76f51;
+            border-color: #e76f51;
+        }
+    </style>
+</body>
+
+{% endblock body %}

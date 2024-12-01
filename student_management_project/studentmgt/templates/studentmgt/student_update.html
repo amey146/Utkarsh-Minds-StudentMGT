@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Update
+{% endblock title %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header" style="background-color: #0b2e59; color: #ffffff;">
+                    <h4 class="text-center mb-0"><strong>Update Student Information</strong></h4>
+                </div>
+                <div class="card-body bg-light">
+                    <form action="/studentmgt/student_do_update/{{ std.st_id }}" method="POST" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="roll"><strong>Roll Number: {{ std.st_id }}</strong></label>
+                            <input name="st_id" type="text" class="form-control" id="roll" hidden="true" required value="{{ std.st_id }}">
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-6">
+                                <label for="fname"><i class="fas fa-user"></i> First Name</label>
+                                <input name="fname" type="text" class="form-control border-primary" id="fname" placeholder="Enter First Name" required value="{{ std.fname }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lname"><i class="fas fa-user"></i> Last Name</label>
+                                <input name="lname" type="text" class="form-control border-primary" id="lname" placeholder="Enter Last Name" required value="{{ std.lname }}">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-6">
+                                <label for="dob"><i class="fas fa-calendar-alt"></i> Date Of Birth</label>
+                                <input type="date" id="dob" name="dob" class="form-control border-primary" value="{{ std.dob|date:'Y-m-d' }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="gender"><i class="fas fa-venus-mars"></i> Gender</label>
+                                <div class="border border-primary rounded p-2" style="height: auto;">
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="male" name="gender" value="M" class="form-check-input" required {% if std.gender == 'M' %} checked {% endif %}>
+                                        <label for="male" class="form-check-label">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="female" name="gender" value="F" class="form-check-input" required {% if std.gender == 'F' %} checked {% endif %}>
+                                        <label for="female" class="form-check-label">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-6">
+                                <label for="email"><i class="fas fa-envelope"></i> Student Email</label>
+                                <input name="st_email" type="email" class="form-control border-primary" id="email" placeholder="Enter Student's Email" required value="{{ std.st_email }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pemail"><i class="fas fa-envelope"></i> Parent's Email</label>
+                                <input name="pr_email" type="email" class="form-control border-primary" id="pemail" placeholder="Enter Parent's Email" required value="{{ std.pr_email }}">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-6">
+                                <label for="phone"><i class="fas fa-phone"></i> Student Phone</label>
+                                <input name="phone" type="text" class="form-control border-primary" id="phone" placeholder="Enter Phone Number" required value="{{ std.phone }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pr_phone"><i class="fas fa-phone"></i> Parent Phone</label>
+                                <input name="pr_phone" type="text" class="form-control border-primary" id="pr_phone" placeholder="Enter Parent's Phone Number" required value="{{ std.pr_phone }}">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="address"><i class="fas fa-home"></i> Address</label>
+                            <textarea name="address" id="address" rows="3" class="form-control border-primary" required>{{ std.address }}</textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="courses"><i class="fas fa-book"></i> Courses</label>
+                            <select name="courses" id="courses" class="form-control border-primary" required>
+                                {% for course in courses %}
+                                <option value="{{ course.c_id }}" {% if course in std.courses.all %} selected {% endif %}>
+                                    {{ course.cname }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-6">
+                                <label for="batch_month"><i class="fas fa-calendar-alt"></i> Batch Month</label>
+                                <select name="batch_month" id="batch_month" class="form-control border-primary" required>
+                                    <option value="" disabled>Select Batch Month</option>
+                                    <option value="January" {% if std.batch_mon == 'January' %}selected{% endif %}>January</option>
+                                    <option value="February" {% if std.batch_mon == 'February' %}selected{% endif %}>February</option>
+                                    <option value="March" {% if std.batch_mon == 'March' %}selected{% endif %}>March</option>
+                                    <option value="April" {% if std.batch_mon == 'April' %}selected{% endif %}>April</option>
+                                    <option value="May" {% if std.batch_mon == 'May' %}selected{% endif %}>May</option>
+                                    <option value="June" {% if std.batch_mon == 'June' %}selected{% endif %}>June</option>
+                                    <option value="July" {% if std.batch_mon == 'July' %}selected{% endif %}>July</option>
+                                    <option value="August" {% if std.batch_mon == 'August' %}selected{% endif %}>August</option>
+                                    <option value="September" {% if std.batch_mon == 'September' %}selected{% endif %}>September</option>
+                                    <option value="October" {% if std.batch_mon == 'October' %}selected{% endif %}>October</option>
+                                    <option value="November" {% if std.batch_mon == 'November' %}selected{% endif %}>November</option>
+                                    <option value="December" {% if std.batch_mon == 'December' %}selected{% endif %}>December</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="batch_year"><i class="fas fa-calendar"></i> Batch Year</label>
+                                <input type="number" value="{{ std.batch_year }}" name="batch_year" id="batch_year" class="form-control border-primary" placeholder="Enter Year" required min="1950" max="2100">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-block" style="background-color: #0b2e59; color: #ffffff;"><i class="fas fa-user-edit"></i> Update Student</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom form styles */
+    .form-control, .form-check-input {
+        border: 1px solid #0b2e59; /* Primary border */
+        border-radius: 0.25rem; /* Rounded corners */
+    }
+
+    .form-control:focus, .form-check-input:focus {
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    }
+
+    .form-group label {
+        font-weight: 600; /* Bolder labels */
+    }
+
+    .btn {
+        background-color: #0b2e59; /* Button background color */
+        border-color: #0b2e59; /* Button border color */
+        color: #ffffff; /* Button text color */
+    }
+
+    .btn:hover {
+        background-color: #0b2e59; /* Darker shade on hover */
+        border-color: #0b2e59; /* Darker border on hover */
+    }
+</style>
+
+<script>
+    function validateDOB() {
+        const dob = new Date(document.getElementById('dob').value);
+        const today = new Date();
+        const age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        const isValidAge = (age > 6 && age < 100); // Valid age range for Class 6-12, undergraduates, etc.
+        if (!isValidAge) {
+            alert('You must be between 6 and 100 years old.');
+        }
+        return isValidAge;
+    }
+
+    function validateName(name) {
+        // Check if the name contains only alphabets and spaces
+        return /^[A-Za-z\s]+$/.test(name);
+    }
+
+    function validatePhone(phone) {
+        // Check if the phone number has five consecutive repeated digits
+        return !/(.)\1{4}/.test(phone);
+    }
+
+    function validateForm() {
+        const firstName = document.getElementById('fname').value;
+        const lastName = document.getElementById('lname').value;
+        const phone = document.getElementById('phone').value;
+        const pr_phone = document.getElementById('pr_phone').value;
+
+        if (!validateDOB()) {
+            return false;
+        }
+
+        if (!validateName(firstName)) {
+            alert('First name must contain only alphabets.');
+            return false;
+        }
+
+        if (!validateName(lastName)) {
+            alert('Last name must contain only alphabets.');
+            return false;
+        }
+
+        if (!validatePhone(phone)) {
+            alert('Phone number must not contain five consecutive identical digits.');
+            return false;
+        }
+
+        if (!validatePhone(pr_phone)) {
+            alert('Parent phone number must not contain five consecutive identical digits.');
+            return false;
+        }
+
+        return true; // All validations passed
+    }
+</script>
+{% endblock body %}

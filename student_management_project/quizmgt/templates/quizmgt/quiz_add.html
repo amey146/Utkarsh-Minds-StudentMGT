@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block linker %}
+<style>
+    /* Container styling */
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        background-color: #ffffff; /* Clean white background */
+        border-radius: 8px; /* Rounded corners for the container */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    }
+
+    /* Header styling */
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2rem;
+        color: #333333; /* Darker color for better readability */
+        font-weight: bold; /* Bold header */
+    }
+
+    /* List group styling */
+    .list-group {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Course list item styling */
+    .course-list-item {
+        padding: 20px;
+        background-color: #d9e2e2d1; /* Light grey background */
+        border: 2px solid #0b2e59; /* Dark blue border color */
+        border-radius: 8px; /* Rounded corners for list items */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Button styling */
+    .next-btn {
+        font-size: 1rem;
+        color: #ffffff; /* White text */
+        text-decoration: none;
+        border: none; /* Remove border */
+        border-radius: 5px; /* Slightly rounded button */
+        padding: 10px 20px; /* Standard padding */
+        background-color: #0b2e59; /* Primary button color */
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .next-btn:focus {
+        outline: none; /* Remove focus outline */
+    }
+
+    .next-btn i {
+        margin-left: 5px; /* Space between text and icon */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 1.5rem; /* Adjust heading size for smaller screens */
+        }
+        
+        .course-list-item {
+            flex-direction: column; /* Stack content vertically on small screens */
+            align-items: flex-start; /* Align items to the start */
+        }
+
+        .next-btn {
+            width: 100%; /* Make buttons full width on small screens */
+            text-align: center; /* Center text */
+            margin-top: 10px; /* Add margin for spacing */
+        }
+    }
+</style>
+{% endblock linker %}
+
+{% block title %}
+Quiz Add
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <h1>Quiz Add</h1>
+    <div class="list-group">
+        {% for c in courses %}
+        <div class="course-list-item">
+            <span style="font-weight: bold;">{{ c.cname }}</span> <!-- Bold subject name -->
+            <a href="/quizmgt/subject_select/{{ c.c_id }}" class="next-btn">
+                Next <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

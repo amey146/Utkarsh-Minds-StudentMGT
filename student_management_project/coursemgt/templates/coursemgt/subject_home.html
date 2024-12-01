@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block linker %}
+<link rel="stylesheet" href="/static/css/subject_management.css">
+{% endblock linker %}
+
+{% block title %}
+Subject Management
+{% endblock title %}
+
+{% block body %}
+<h1 class="text-center mb-4" style="font-size: 2.5rem; font-weight: bold; color: #0b2e59;">Subject Management</h1>
+
+<div class="container">
+    <div class="mb-4 text-center">
+        <a href="{% url 'subject_add' %}" class="btn btn-primary btn-lg" style="background-color: #0c1f6a; border-color: #0c1f6a;">
+            <i class="fas fa-plus"></i> Add Subject
+        </a>
+    </div>
+
+    <div class="row">
+        {% for s in subjects %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-primary">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ s.sbname }}</h5>
+                    <p class="card-text text-muted">
+                        <strong>ID:</strong> {{ s.sb_id }}<br>
+                        <strong>Courses:</strong>
+                        {% if s.courses.all %}
+                            <ul>
+                                {% for course in s.courses.all %}
+                                    <li>{{ course.cname }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            No courses assigned.
+                        {% endif %}
+                    </p>
+                    <div class="d-flex justify-content-around">
+                        <a href="/coursemgt/subject_update/{{ s.sb_id }}" class="btn btn-info">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="/coursemgt/subject_delete/{{ s.sb_id }}" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* Global styling */
+    body {
+        font-family: 'Arial', sans-serif; /* Arial font family */
+    }
+
+    /* Page styling */
+    .text-center {
+        text-align: center; /* Center align text */
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem; /* Margin bottom spacing */
+    }
+
+    /* Button styles */
+    .btn-primary {
+        background-color: #0c1f6a; /* Dark blue background */
+        border-color: #0c1f6a; /* Match the border color */
+        color: white; /* White text color */
+    }
+
+    .btn-primary:hover {
+        background-color: #0a1a4d; /* Darker blue on hover */
+        border-color: #091a4a; /* Darker blue border on hover */
+    }
+
+    .btn-info {
+        background-color: #17a2b8; /* Teal background */
+        border-color: #17a2b8; /* Teal border */
+        color: white; /* White text color */
+    }
+
+    .btn-info:hover {
+        background-color: #138496; /* Darker teal on hover */
+        border-color: #117a8b; /* Darker teal border on hover */
+    }
+
+    .btn-danger {
+        background-color: #dc3545; /* Red background */
+        border-color: #dc3545; /* Red border */
+        color: white; /* White text color */
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333; /* Darker red on hover */
+        border-color: #bd2130; /* Darker red border on hover */
+    }
+
+    /* Card styling */
+    .card {
+        border-radius: 0.5rem; /* Rounded corners */
+        overflow: hidden; /* Hide overflow */
+        background-color: #f8f9fa; /* Light background color */
+        border: 2px solid #0b2e59; /* External blue border */
+        transition: transform 0.3s, box-shadow 0.3s; /* Animation */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Lift effect */
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    }
+
+    .card-body {
+        padding: 1.5rem; /* Padding inside card body */
+    }
+
+    .card-title {
+        font-size: 1.5rem; /* Larger font size for card title */
+        margin-bottom: 1rem; /* Margin bottom for card title */
+        color: #000000; /* Black color for title */
+    }
+
+    .card-text {
+        font-size: 1rem; /* Font size for card text */
+        color: #6c757d; /* Gray color for text */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 767.98px) {
+        .col-md-4 {
+            margin-bottom: 1rem; /* Margin bottom for small screens */
+        }
+    }
+</style>
+{% endblock body %}

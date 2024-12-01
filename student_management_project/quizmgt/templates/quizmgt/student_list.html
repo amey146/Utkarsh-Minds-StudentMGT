@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block linker %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border: 2px solid #0b2e59; /* Dark blue border for the outer container */
+    }
+
+    /* Heading style - Consistent with other module headings */
+    h1 {
+        text-align: center;
+        color: #0b2e59; /* Deep blue color to match your other headings */
+        font-size: 2.5rem; /* Similar size to other modules */
+        font-weight: bold; /* Strong weight for emphasis */
+        margin-top: 30px; /* Adjust margin for spacing */
+    }
+
+    .form-inline {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .total-marks-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        border: 2px solid #0b2e59; /* Dark blue border for total marks container */
+    }
+
+    .total-marks-label {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-right: 10px;
+        color: #333;
+    }
+
+    .total-marks-input {
+        width: 100px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid #0b2e59; /* Dark blue border for total marks input */
+        text-align: center;
+    }
+
+    /* Table styling */
+    .student-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .student-table th, .student-table td {
+        padding: 10px;
+        text-align: left;
+        border: 2px solid #0b2e59; /* Dark blue border for table cells */
+    }
+
+    .student-table th {
+        background-color: #0b2e59;
+        color: white;
+        font-weight: bold;
+    }
+
+    .student-table td input {
+        width: 80px;
+        padding: 5px;
+        border-radius: 4px;
+        border: 2px solid #0b2e59; /* Dark blue border for input fields in table */
+        text-align: center;
+    }
+
+    .student-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .student-table tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    /* Make student names bold */
+    .student-name {
+        font-weight: bold;
+    }
+
+    /* Submit button */
+    .btn {
+        background-color: #0b2e59;
+        color: white;
+        border: 2px solid #0b2e59; /* Dark blue border for buttons */
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #0a2a4d;
+        transform: translateY(-2px);
+    }
+
+    .alert {
+        margin-top: 20px;
+    }
+</style>
+{% endblock linker %}
+
+{% block title %}
+Quiz 
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <h1>Quiz</h1> <!-- Heading matches other module headings -->
+
+    <!-- Batch selection form -->
+    <form method="GET" action="" class="form-inline mb-4" onchange="this.form.submit()">
+        <label for="batch" class="mr-2">Select Batch:</label>
+        <select name="batch" id="batch" class="form-control mr-2">
+            <option selected disabled value="">Select Batch</option>
+            {% for batch in batches %}
+                <option value="{{ batch.batch_mon }}-{{ batch.batch_year }}" 
+                    {% if selected_batch %} 
+                        {% if selected_batch == batch.batch_mon|stringformat:"d"|add:"-"|add:batch.batch_year|stringformat:"d" %} selected {% endif %} 
+                    {% endif %}>
+                    {{ batch.batch_mon }} - {{ batch.batch_year }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+
+    <!-- Student marks table -->
+    <form action="{% url 'quiz_submit' sbname %}" method="POST" class="form">
+        {% csrf_token %}
+        <!-- Total Marks section -->
+    <div class="total-marks-container">
+        <label class="total-marks-label">Total Marks:</label>
+        <input type="number" name="total" class="total-marks-input" placeholder="Marks" required>
+    </div>
+        <table class="student-table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Marks Scored</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td class="student-name">{{ student.fname }} {{ student.lname }}</td> <!-- Student name in bold -->
+                    <td><input type="number" name="scoredmarks_{{ student.st_id }}" required></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            {% if not students or selected_batch == None %}
+                <div class="alert alert-warning" role="alert">
+                    Cannot Submit Record, check batches mismatch
+                </div>
+            {% else %}
+                <button type="submit" class="btn btn-block">Submit</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock body %}

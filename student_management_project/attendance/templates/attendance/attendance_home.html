@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block linker %}
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fc; /* Light background */
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 2.5em;
+        color: #0b2e59; /* Deep blue color for heading */
+        font-weight: 700;
+    }
+
+    /* Card Styling */
+    .card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        margin: 20px 0;
+        padding: 30px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Elevated shadow on hover */
+    }
+
+    .card-title {
+        font-size: 1.7em;
+        margin-bottom: 15px;
+        color: #0b2e59; /* Deep blue for titles */
+        font-weight: 600;
+    }
+
+    .card-content {
+        font-size: 1.1em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Button Styling */
+    .btn-primary {
+        background-color: #0b2e59; /* Primary button color */
+        border: none;
+        color: #ffffff;
+        padding: 12px 30px;
+        font-size: 1.1em;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease-in-out, transform 0.3s;
+        display: inline-block;
+    }
+
+    .btn-primary:hover {
+        background-color: #073a85; /* Darker blue on hover */
+        transform: translateY(-2px); /* Lift effect on hover */
+    }
+
+    /* Responsive Container */
+    .container {
+        max-width: 1000px; /* Adjusted for modern wide displays */
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+    }
+
+    /* Spacing between elements */
+    .card + .card {
+        margin-top: 40px;
+    }
+</style>
+{% endblock linker %}
+
+{% block title %}
+Attendance Management
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <h1>Attendance Management</h1>
+
+        <!-- Add Attendance Card -->
+        <div class="card">
+            <h2 class="card-title">Add Attendance</h2>
+            <p class="card-content">Easily record new attendance entries for students.</p>
+            <a class="btn btn-primary" href="{% url 'attendance_add' %}">
+                <i class="fas fa-plus-circle"></i> Go to Add Attendance
+            </a>
+        </div>
+
+        <!-- Attendance List Card -->
+        <div class="card">
+            <h2 class="card-title">Attendance List</h2>
+            <p class="card-content">View and manage detailed attendance records.</p>
+            <a class="btn btn-primary" href="{% url 'attendance_list' %}">
+                <i class="fas fa-list-ul"></i> Go to Attendance List
+            </a>
+        </div>
+        <div class="card">
+            <h2 class="card-title">Individual Attendance List</h2>
+            <p class="card-content">View and manage individuals attendance records.</p>
+            <a class="btn btn-primary" href="{% url 'ind_attendance_list' %}">
+                <i class="fas fa-list-ul"></i> Go to Individual Attendance List
+            </a>
+        </div>
+    </div>
+{% endblock body %}

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Course
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card">
+        <h1 class="text-center mb-4">Add New Course</h1>
+        
+        <!-- Add Course Form in Tabular Format -->
+        <form action="{% url 'course_add' %}" method="POST" class="form">
+            {% csrf_token %}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-label"><label for="cid" class="form-label">Course ID</label></td>
+                        <td><input type="text" name="cid" id="cid" class="form-control" required 
+                                   placeholder="Enter Course ID" data-toggle="tooltip" title="Enter a unique Course ID"></td>
+                    </tr>
+                    <tr>
+                        <td class="col-label"><label for="cname" class="form-label">Course Name</label></td>
+                        <td><input type="text" name="cname" id="cname" class="form-control" required 
+                                   placeholder="Enter Course Name" data-toggle="tooltip" title="Enter the name of the Course"></td>
+                    </tr>
+                    <tr>
+                        <td class="col-label"><label for="cduration" class="form-label">Course Duration (Days)</label></td>
+                        <td><input type="number" name="cduration" id="cduration" class="form-control" required 
+                                   placeholder="Enter Duration in Days" data-toggle="tooltip" title="Enter the duration of the Course in Days"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button type="submit" class="btn btn-custom">Save and Next</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add Course Page CSS -->
+<style>
+    /* Card Styling */
+    .card {
+        border: 2px solid #0b2e59; /* Dark blue border */
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        background-color: #f8f9fa; /* Light background color */
+        margin-bottom: 20px;
+    }
+
+    /* Heading Styling */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0b2e59;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    }
+
+    /* Table Styling */
+    .table {
+        width: 100%; /* Full width table */
+        margin-top: 20px; /* Margin above the table */
+        border-collapse: separate; /* Separate borders */
+        border-spacing: 0 1rem; /* Spacing between rows */
+    }
+
+    .col-label {
+        width: 30%; /* Set a specific width for the label columns */
+    }
+
+    .form-label {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #0b2e59;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #0b2e59;
+        padding: 10px;
+        transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+        width: 100%; /* Full width inputs */
+    }
+
+    .form-control:focus {
+        border-color: #0c1f6a;
+        box-shadow: 0 0 5px rgba(12, 31, 106, 0.5);
+        outline: none; /* Remove default outline */
+    }
+
+    /* Button Styling */
+    .btn-custom {
+        background-color: #0b2e59;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    }
+
+    .btn-custom:hover {
+        background-color: #0a2a4d;
+        color: white;
+        transform: scale(1.05); /* Slight scale on hover */
+    }
+
+    .text-center {
+        text-align: center;
+        margin-top: 20px; /* Margin above the button */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .table {
+            font-size: 0.9rem; /* Smaller font size on mobile */
+        }
+        .col-label {
+            width: 40%; /* Adjust width for mobile view */
+        }
+        .btn-custom {
+            width: 100%; /* Full width button on small screens */
+        }
+    }
+</style>
+
+<!-- Include Bootstrap JS and jQuery for tooltips -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip(); // Initialize tooltips
+    });
+</script>
+{% endblock body %}

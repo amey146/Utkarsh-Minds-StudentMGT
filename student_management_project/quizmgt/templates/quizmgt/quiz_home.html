@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}
+Quiz Home
+{% endblock title %}
+
+{% block linker %}
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fc; /* Light background */
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        color: #0b2e59; /* Deep blue color for heading */
+        font-weight: 700;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    /* Card Styling */
+    .card {
+        border: 1px solid #0b2e59; /* Border color for the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        margin-bottom: 30px; /* Space between cards */
+    }
+    .card-title {
+        font-size: 1.7em;
+        color: #0b2e59; /* Deep blue for titles */
+        font-weight: 600;
+    }
+
+    /* Custom button styling */
+    .btn-custom {
+        background-color: #0b2e59; /* Dark blue background */
+        color: #ffffff; /* White text color for contrast */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        padding: 12px 30px; /* Padding */
+        font-size: 1.1em;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: none; /* Disable transition effects */
+    }
+
+    /* No hover or active effects for buttons */
+    .btn-custom:hover,
+    .btn-custom:active,
+    .btn-custom:focus {
+        background-color: #0b2e59; /* Keep the same color */
+        outline: none; /* Remove outline */
+        transform: none; /* No transformation */
+    }
+
+    /* Responsive Container */
+    .container {
+        max-width: 1000px; /* Adjusted for modern wide displays */
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+    }
+</style>
+{% endblock linker %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Welcome to Quiz</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Create New Quiz Results</h5>
+                    <a href="{% url 'quiz_add' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-plus"></i> Create Quiz
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Quiz Records</h5>
+                    <a href="{% url 'quiz_list' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-list"></i> View Records
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Report Records</h5>
+                    <a href="{% url 'report_list' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-list"></i> View Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Send Report Mails</h5>
+                    <a href="{% url 'report_generation' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-check"></i> Generate Reports
+                    </a>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+{% endblock body %}
